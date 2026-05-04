@@ -1,0 +1,7 @@
+{
+  "name": "neobit-example",
+  "displayName": "Neobit Example",
+  "version": "2.5.0",
+  "description": "Live example app demonstrating all Neobit features",
+  "package": "com.neobit.example"
+}
