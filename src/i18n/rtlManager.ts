@@ -10,33 +10,31 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { I18nManager, NativeModules, Platform } from 'react-native';
+import { I18nManager, NativeModules } from 'react-native';
 import { RESTART_GUARD_KEY, RTL_LANGUAGES } from './constants';
 import type { SupportedLanguage, RTLApplyResult } from './types';
 
 async function triggerRestart(): Promise<void> {
-  const { AppRestart } = NativeModules;
+  try {
+    // Reload JS bundle without restarting native app (better UX)
+    const { RCTDeviceEventEmitter } = NativeModules;
 
-  if (AppRestart?.restart) {
-    // Custom native module — works on both Android & iOS
-    AppRestart.restart();
-    return;
-  }
+    if (RCTDeviceEventEmitter?.emit) {
+      RCTDeviceEventEmitter.emit('RCTTriggerReloadCommandListeners');
+      return;
+    }
+  } catch {}
 
-  // Fallback: try react-native-restart (if installed)
+  // Fallback: DevSettings reload (development mode)
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const RNRestart = require('react-native-restart').default;
-    RNRestart.restart();
+    const { DevSettings } = require('react-native');
+    DevSettings?.reload?.();
   } catch {
-    // Neither native module nor react-native-restart available.
-    // On Android we can still try Activity.recreate() as a last resort.
-    if (Platform.OS === 'android') {
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { DevSettings } = require('react-native');
-        DevSettings?.reload?.();
-      } catch {}
+    // Last resort: try AppRestart native module
+    const { AppRestart } = NativeModules;
+    if (AppRestart?.restart) {
+      AppRestart.restart();
     }
   }
 }
