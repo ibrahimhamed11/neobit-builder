@@ -10,30 +10,30 @@ Welcome to your {{APP_NAME}} project! This guide covers Firebase setup, common i
 ```bash
 npm install --legacy-peer-deps
 ```
+**Note:** Font linking happens automatically via postinstall script.
 
-### 2. Link Fonts & Modules (Required!)
-This step links vector icon fonts and custom fonts for Android/iOS:
-```bash
-npx react-native link                    # Link all fonts
-# On Windows: use `npm run android:link` or manual setup
-```
-
-### 3. iOS Setup
+### 2. iOS Setup
 ```bash
 npm run ios:pods  # Link native pods (required once)
 npm start         # Start Metro dev server
 npm run ios       # In another terminal
 ```
 
-### 4. Android Setup
+### 3. Android Setup
 ```bash
 npm start         # Start Metro dev server
 npm run android   # In another terminal
 ```
 
-**⚠️ If icons still show as "X" on Android:**
-- Run `npx react-native link` again
-- Or rebuild: `npm run android -- --reset-cache`
+**⚠️ If icons still show as "X":**
+1. Verify fonts are in native directories:
+   - Android: `android/app/src/main/assets/fonts/` should have 25+ .ttf files
+   - iOS: `ios/Fonts/` should have 25+ .ttf files
+2. Link fonts manually: `npm run link:fonts`
+3. Clear Metro cache: `npm start -- --reset-cache`
+4. Rebuild:
+   - Android: `npm run android -- --reset-cache`
+   - iOS: `npm run ios`
 
 ---
 
@@ -75,24 +75,27 @@ npm run android    # or npm run ios
 ### ❌ Icon Display Issues ("X" instead of icons)
 **Error:** Icons show as "X" instead of the material icons (especially on Android)
 
+**Why this happens:** Fonts aren't linked to native Android/iOS directories.
+
 **Quick Fix:**
 ```bash
-# 1. Link fonts
+# 1. Re-link fonts (if postinstall didn't run)
 npm run link:fonts
 
-# 2. Clear all caches
-npm start -- --reset-cache
-rm -rf node_modules/.cache
-cd android && ./gradlew clean && cd ..
+# 2. Verify fonts exist:
+# Android: ls android/app/src/main/assets/fonts/ | wc -l  (should show 25+)
+# iOS: ls ios/Fonts/ | wc -l  (should show 25+)
 
-# 3. Rebuild
+# 3. Clear all caches & rebuild
+npm start -- --reset-cache
+cd android && ./gradlew clean && cd ..
 npm run android
 ```
 
 **If still not working:**
-- **Android:** Check `android/app/src/main/assets/fonts/` has `.ttf` files
-- **iOS:** Run `npm run ios:pods` then `npm run ios`
-- Last resort: Delete `node_modules` and `npm install --legacy-peer-deps` again
+- Check that `android/app/src/main/assets/fonts/` has 25+ `.ttf` files
+- Run `npm run ios:pods` then `npm run ios`
+- Last resort: `npm install --legacy-peer-deps` again (reinstalls and re-links fonts)
 
 ### ❌ Language Switch Not Refreshing
 **Error:** Changing language doesn't update the UI or direction
