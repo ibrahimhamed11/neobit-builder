@@ -122,19 +122,12 @@ async function main() {
       process.exit(1);
     }
 
-    // ── 3. Copy src/ template files ───────────────────────────────────────────
+    // ── 3. Copy template files ───────────────────────────────────────────────
     console.log(c.cyan('  [2/5]') + ' Scaffolding source files…');
 
-    // Library-specific files that should NOT be in the generated standalone app
-    const excludeFromSrc = new Set(['NeobitApp.tsx', 'index.ts', 'config', 'data']);
-
-    // Copy library src/ → dest/src/ (excluding lib-specific files)
+    // Copy template/src/ → dest/src/
+    // The generated App.tsx imports from 'create-neobit-app' (framework pattern)
     const destSrc = path.join(destDir, 'src');
-    if (fs.existsSync(SRC_DIR)) {
-      copyDir(SRC_DIR, destSrc, excludeFromSrc);
-    }
-
-    // Overlay template/src/ overrides (App.tsx, simplified authStore, etc.)
     const tmplSrc = path.join(TEMPLATE_DIR, 'src');
     if (fs.existsSync(tmplSrc)) {
       copyDir(tmplSrc, destSrc);
@@ -232,6 +225,10 @@ async function main() {
       '{{API_BASE_URL}}':  apiUrl,
       '{{LOCAL_IP}}':      localIp,
       '{{PRIMARY_COLOR}}': primaryColor,
+      '{{GOOGLE_SIGN_IN}}': String(googleSignIn),
+      '{{APPLE_SIGN_IN}}':  String(appleSignIn),
+      '{{FCM}}':            String(fbFCM),
+      '{{REMOTE_CONFIG}}':  String(fbRemoteConfig),
     });
 
     // ── 7. npm install ─────────────────────────────────────────────────────────

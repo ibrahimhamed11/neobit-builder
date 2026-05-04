@@ -4,13 +4,12 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios:pods": "cd ios && pod install && cd ..",
-    "env:local": "node -e \"const fs=require('fs'); let f=fs.readFileSync('src/api/config.ts','utf8'); f=f.replace(/API_ENV: ApiEnv = '\\w+'/,\\\"API_ENV: ApiEnv = 'local'\\\"); fs.writeFileSync('src/api/config.ts',f); console.log('→ Switched to LOCAL');\"",
-    "env:production": "node -e \"const fs=require('fs'); let f=fs.readFileSync('src/api/config.ts','utf8'); f=f.replace(/API_ENV: ApiEnv = '\\w+'/,\\\"API_ENV: ApiEnv = 'production'\\\"); fs.writeFileSync('src/api/config.ts',f); console.log('→ Switched to PRODUCTION');\"",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "android:clean": "cd android && ./gradlew clean && cd .."
   },
   "dependencies": {
+    "create-neobit-app": "^2.6.0",
     "@invertase/react-native-apple-authentication": "^2.5.0",
     "@notifee/react-native": "^9.0.0",
     "@react-native-async-storage/async-storage": "^1.24.0",
