@@ -1,0 +1,79 @@
+{
+  "parameters": {
+    "maintenance_mode": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Enable/disable maintenance mode. When true, shows MaintenanceScreen to all users."
+    },
+    "maintenance_title_en": {
+      "defaultValue": {
+        "value": "Under Maintenance"
+      },
+      "description": "Maintenance screen title (English)"
+    },
+    "maintenance_title_ar": {
+      "defaultValue": {
+        "value": "تحت الصيانة"
+      },
+      "description": "Maintenance screen title (Arabic)"
+    },
+    "maintenance_message_en": {
+      "defaultValue": {
+        "value": "We're performing scheduled maintenance.\nWe'll be back shortly!"
+      },
+      "description": "Maintenance screen message (English)"
+    },
+    "maintenance_message_ar": {
+      "defaultValue": {
+        "value": "نحن نُجري صيانة دورية مجدولة.\nسنعود قريباً!"
+      },
+      "description": "Maintenance screen message (Arabic)"
+    },
+    "force_update": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Enable/disable forced app update requirement"
+    },
+    "minimum_version": {
+      "defaultValue": {
+        "value": "1.0.0"
+      },
+      "description": "Minimum app version required (e.g., 2.5.0). Only checked if force_update=true"
+    },
+    "store_url_ios": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "App Store URL for force update link (e.g., https://apps.apple.com/app/id1234567890)"
+    },
+    "store_url_android": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "Play Store URL for force update link (e.g., https://play.google.com/store/apps/details?id=com.example.app)"
+    }
+  },
+  "parameterGroups": {
+    "Maintenance": {
+      "description": "Maintenance mode controls",
+      "parameters": [
+        "maintenance_mode",
+        "maintenance_title_en",
+        "maintenance_title_ar",
+        "maintenance_message_en",
+        "maintenance_message_ar"
+      ]
+    },
+    "Force Update": {
+      "description": "App update requirement controls",
+      "parameters": [
+        "force_update",
+        "minimum_version",
+        "store_url_ios",
+        "store_url_android"
+      ]
+    }
+  }
+}
