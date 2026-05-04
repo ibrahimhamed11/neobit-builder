@@ -222,6 +222,13 @@ async function main() {
       }
     }
 
+    // ── 4c. Copy fonts to Android assets ────────────────────────────────────
+    const fontsSrc = path.join(TEMPLATE_DIR, 'assets/fonts');
+    const androidFontsDest = path.join(destDir, 'android/app/src/main/assets/fonts');
+    if (fs.existsSync(fontsSrc)) {
+      copyDir(fontsSrc, androidFontsDest, new Set());
+    }
+
     // ── 5. Merge package.json ─────────────────────────────────────────────────
     const templatePkgPath = path.join(TEMPLATE_DIR, '_package.json');
     if (fs.existsSync(templatePkgPath)) {

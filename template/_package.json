@@ -7,7 +7,8 @@
     "test": "jest",
     "ios:pods": "cd ios && pod install && cd ..",
     "typecheck": "tsc --noEmit",
-    "android:clean": "cd android && ./gradlew clean && cd .."
+    "android:clean": "cd android && ./gradlew clean && cd ..",
+    "link:fonts": "npx react-native link"
   },
   "dependencies": {
     "create-neobit-app": "^2.6.0",

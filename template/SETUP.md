@@ -6,23 +6,34 @@ Welcome to your {{APP_NAME}} project! This guide covers Firebase setup, common i
 
 ## Quick Start
 
-### 1. Install Dependencies (if needed)
+### 1. Install Dependencies
 ```bash
 npm install --legacy-peer-deps
 ```
 
-### 2. iOS Setup
+### 2. Link Fonts & Modules (Required!)
+This step links vector icon fonts and custom fonts for Android/iOS:
+```bash
+npx react-native link                    # Link all fonts
+# On Windows: use `npm run android:link` or manual setup
+```
+
+### 3. iOS Setup
 ```bash
 npm run ios:pods  # Link native pods (required once)
 npm start         # Start Metro dev server
 npm run ios       # In another terminal
 ```
 
-### 3. Android Setup
+### 4. Android Setup
 ```bash
 npm start         # Start Metro dev server
 npm run android   # In another terminal
 ```
+
+**⚠️ If icons still show as "X" on Android:**
+- Run `npx react-native link` again
+- Or rebuild: `npm run android -- --reset-cache`
 
 ---
 
@@ -62,17 +73,26 @@ npm run android    # or npm run ios
 ```
 
 ### ❌ Icon Display Issues ("X" instead of icons)
-**Error:** Icons show as "X" instead of the material icons
+**Error:** Icons show as "X" instead of the material icons (especially on Android)
 
-**Fix:** Re-link native fonts:
+**Quick Fix:**
 ```bash
-npm run android -- --reset-cache    # Clear Android cache
-# OR
-npm run ios:pods                     # Re-link iOS pods
-npm start -- --reset-cache           # Clear Metro cache
+# 1. Link fonts
+npm run link:fonts
+
+# 2. Clear all caches
+npm start -- --reset-cache
+rm -rf node_modules/.cache
+cd android && ./gradlew clean && cd ..
+
+# 3. Rebuild
+npm run android
 ```
 
-Then rebuild the app.
+**If still not working:**
+- **Android:** Check `android/app/src/main/assets/fonts/` has `.ttf` files
+- **iOS:** Run `npm run ios:pods` then `npm run ios`
+- Last resort: Delete `node_modules` and `npm install --legacy-peer-deps` again
 
 ### ❌ Language Switch Not Refreshing
 **Error:** Changing language doesn't update the UI or direction
