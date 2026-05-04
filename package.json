@@ -26,7 +26,10 @@
     "example:ios": "cd example && npm run ios",
     "example:clean": "cd example && npm run clean",
     "build": "bob build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "publish:patch": "node scripts/publish.js patch",
+    "publish:minor": "node scripts/publish.js minor",
+    "publish:major": "node scripts/publish.js major"
   },
   "keywords": [
     "react-native",
