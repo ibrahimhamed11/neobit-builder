@@ -9,6 +9,11 @@ dist/
 coverage/
 .typescript/
 
+# Firebase Configuration (DO NOT COMMIT CREDENTIALS)
+android/app/google-services.json
+ios/*/GoogleService-Info.plist
+firebase-remote-config.json
+
 # Example app — build artifacts & dependencies
 example/node_modules/
 example/android/build/

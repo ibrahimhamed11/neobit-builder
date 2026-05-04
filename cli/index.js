@@ -176,7 +176,7 @@ async function main() {
     // ── 4. Copy root template files ───────────────────────────────────────────
     console.log(c.cyan('  [3/5]') + ' Copying project config files…');
 
-    const rootFiles = ['index.js', 'react-native.config.js', 'SETUP.md', '.gitignore'];
+    const rootFiles = ['index.js', 'react-native.config.js', 'SETUP.md', 'QUICKSTART.md', 'ONBOARDING.md', '.gitignore'];
     for (const f of rootFiles) {
       const s = path.join(TEMPLATE_DIR, f);
       if (fs.existsSync(s)) fs.copyFileSync(s, path.join(destDir, f));
@@ -291,9 +291,12 @@ async function main() {
     console.log('\n' + c.green(c.bold('  ✅  Done! Your project is ready.\n')));
     console.log(c.bold('  Next steps:'));
     console.log(`    ${c.cyan(`cd ${projectName}`)}`);
-    console.log(`    ${c.cyan('npm run ios:pods')}  ${c.dim('← iOS only')}`);
-    console.log(`    ${c.cyan('npm start')}  ${c.dim('then')}  ${c.cyan('npm run android')}  ${c.dim('or')}  ${c.cyan('npm run ios')}`);
-    console.log(`\n  📖  Open ${c.bold('SETUP.md')} for Firebase setup, backend API contract, and customization.\n`);
+    console.log(`    ${c.cyan('npm start')}  ${c.dim('← Start Metro dev server')}`);
+    console.log(`    ${c.cyan('npm run ios:pods')}  ${c.dim('← iOS only, run once')}`);
+    console.log(`    ${c.cyan('npm run android')}  ${c.dim('or')}  ${c.cyan('npm run ios')}  ${c.dim('← In another terminal')}`);
+    console.log(`\n  📖  Documentation:`);
+    console.log(`    ${c.bold('QUICKSTART.md')}  ${c.dim('← Read this first! 5-min setup guide')}`);
+    console.log(`    ${c.bold('SETUP.md')}      ${c.dim('← Complete guide: Firebase, API, customization')}\n`);
 
   } catch (err) {
     rl.close();
