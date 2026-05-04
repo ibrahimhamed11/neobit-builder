@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "android:clean": "cd android && ./gradlew clean && cd ..",
     "link:fonts": "node scripts/link-fonts.js",
+    "fix-metro": "node scripts/fix-metro.js",
     "postinstall": "npm run link:fonts"
   },
   "dependencies": {
