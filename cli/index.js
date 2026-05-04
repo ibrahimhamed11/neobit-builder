@@ -71,15 +71,16 @@ function replaceInDir(dir, tokens) {
 
 // ── Entry point ────────────────────────────────────────────────────────────────
 async function main() {
-  console.log('\n' + c.bold(c.cyan([
+  const logo = [
     '  ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗████████╗',
     '  ████╗  ██║██╔════╝██╔═══██╗██╔══██╗██║╚══██╔══╝',
     '  ██╔██╗ ██║█████╗  ██║   ██║██████╔╝██║   ██║   ',
     '  ██║╚██╗██║██╔══╝  ██║   ██║██╔══██╗██║   ██║   ',
     '  ██║ ╚████║███████╗╚██████╔╝██████╔╝██║   ██║   ',
     '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝   ╚═╝  ',
-  ].join('\n')));
-  console.log(c.dim('  create-neobit-app — Scaffold a production-ready React Native app in seconds.\n'));
+  ].join('\n');
+  console.log('\n' + c.bold(c.cyan(logo)));
+  console.log(c.dim('\n  create-neobit-app — Scaffold a production-ready React Native app in seconds.\n'));
   console.log(c.dim('  Developer : ') + c.bold('Ibrahim Hamed'));
   console.log(c.dim('  Contact   : ') + c.bold('ibrahim.hamed112@hotmail.com') + '\n');
 
