@@ -176,7 +176,7 @@ async function main() {
     // ── 4. Copy root template files ───────────────────────────────────────────
     console.log(c.cyan('  [3/5]') + ' Copying project config files…');
 
-    const rootFiles = ['react-native.config.js', 'SETUP.md', '.gitignore'];
+    const rootFiles = ['index.js', 'react-native.config.js', 'SETUP.md', '.gitignore'];
     for (const f of rootFiles) {
       const s = path.join(TEMPLATE_DIR, f);
       if (fs.existsSync(s)) fs.copyFileSync(s, path.join(destDir, f));
