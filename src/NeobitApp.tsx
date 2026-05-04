@@ -20,10 +20,30 @@ const KUFI_FONT_CONFIG = {
 };
 const arabicPaperFonts = configureFonts({ config: KUFI_FONT_CONFIG });
 
+// Override each variant with proper font weights for Arabic typography
+const kufiVariants = {
+  ...arabicPaperFonts,
+  displayLarge: { ...arabicPaperFonts.displayLarge, fontFamily: 'NotoKufiArabic-Bold' },
+  displayMedium: { ...arabicPaperFonts.displayMedium, fontFamily: 'NotoKufiArabic-Bold' },
+  displaySmall: { ...arabicPaperFonts.displaySmall, fontFamily: 'NotoKufiArabic-Bold' },
+  headlineLarge: { ...arabicPaperFonts.headlineLarge, fontFamily: 'NotoKufiArabic-Bold' },
+  headlineMedium: { ...arabicPaperFonts.headlineMedium, fontFamily: 'NotoKufiArabic-SemiBold' },
+  headlineSmall: { ...arabicPaperFonts.headlineSmall, fontFamily: 'NotoKufiArabic-SemiBold' },
+  titleLarge: { ...arabicPaperFonts.titleLarge, fontFamily: 'NotoKufiArabic-SemiBold' },
+  titleMedium: { ...arabicPaperFonts.titleMedium, fontFamily: 'NotoKufiArabic-Medium' },
+  titleSmall: { ...arabicPaperFonts.titleSmall, fontFamily: 'NotoKufiArabic-Medium' },
+  bodyLarge: { ...arabicPaperFonts.bodyLarge, fontFamily: 'NotoKufiArabic-Regular' },
+  bodyMedium: { ...arabicPaperFonts.bodyMedium, fontFamily: 'NotoKufiArabic-Regular' },
+  bodySmall: { ...arabicPaperFonts.bodySmall, fontFamily: 'NotoKufiArabic-Regular' },
+  labelLarge: { ...arabicPaperFonts.labelLarge, fontFamily: 'NotoKufiArabic-Medium' },
+  labelMedium: { ...arabicPaperFonts.labelMedium, fontFamily: 'NotoKufiArabic-Medium' },
+  labelSmall: { ...arabicPaperFonts.labelSmall, fontFamily: 'NotoKufiArabic-Medium' },
+};
+
 function buildPaperTheme(isDark: boolean) {
   const base = isDark ? MD3DarkTheme : MD3LightTheme;
   if (!I18nManager.isRTL) return base;
-  return { ...base, fonts: arabicPaperFonts };
+  return { ...base, fonts: kufiVariants };
 }
 
 // ─── Internal Root Component ───────────────────────────────────────────────────

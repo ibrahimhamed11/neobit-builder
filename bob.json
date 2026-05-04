@@ -1,0 +1,18 @@
+{
+  "source": "src",
+  "output": "lib",
+  "targets": [
+    {
+      "name": "commonjs",
+      "type": "commonjs"
+    },
+    {
+      "name": "module",
+      "type": "module"
+    },
+    {
+      "name": "typescript",
+      "type": "typescript"
+    }
+  ]
+}
