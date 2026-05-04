@@ -46,12 +46,17 @@ try {
 
 // 3. Publish to npm
 console.log('📤 Publishing to npm...');
+let publishSuccess = true;
 try {
   execSync('npm publish --access public', { stdio: 'inherit' });
   console.log('✓ Published to npm\n');
 } catch (err) {
-  console.error('❌ Publish failed');
-  process.exit(1);
+  console.error('⚠ npm publish failed:', err.message);
+  console.error('\nTroubleshooting npm publish errors:');
+  console.error('  - Check npm token is valid: npm whoami');
+  console.error('  - Verify .npmrc has correct auth token');
+  console.error('  - Check package permissions: npm owner ls create-neobit-app');
+  publishSuccess = false;
 }
 
 // 4. Push to git
@@ -61,13 +66,31 @@ try {
   const newVersion = updatedPackageJson.version;
 
   execSync('git add .', { stdio: 'inherit' });
-  execSync(`git commit -m "chore: bump to ${newVersion}"`, { stdio: 'inherit' });
-  execSync(`git tag v${newVersion}`, { stdio: 'inherit' });
+  // Only commit if there are changes
+  try {
+    execSync('git commit -m "chore: bump to ' + newVersion + '"', { stdio: 'pipe' });
+  } catch (e) {
+    // git commit fails if nothing changed, that's ok
+  }
+
+  // Create tag if it doesn't exist
+  try {
+    execSync(`git tag v${newVersion}`, { stdio: 'pipe' });
+  } catch (e) {
+    // tag might already exist
+  }
+
   execSync('git push origin main --tags', { stdio: 'inherit' });
   console.log('✓ Pushed to git\n');
 } catch (err) {
-  console.error('⚠ Git push failed (but npm publish succeeded)');
-  console.error(err.message);
+  console.error('⚠ Git push failed:', err.message);
+  console.error('   Version was bumped locally, but not pushed to remote');
 }
 
-console.log('✅ Publish workflow completed!\n');
+if (publishSuccess) {
+  console.log('✅ Publish workflow completed successfully!\n');
+} else {
+  console.error('\n⚠ Publish workflow completed with npm publish errors.');
+  console.error('   Version bump and git push completed, but npm publish failed.');
+  console.error('   Try again with: npm publish --access public\n');
+}
