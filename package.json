@@ -25,7 +25,7 @@
     "example:android": "cd example && npm run android",
     "example:ios": "cd example && npm run ios",
     "example:clean": "cd example && npm run clean",
-    "build": "bob build",
+    "build": "node scripts/build.js",
     "typecheck": "tsc --noEmit",
     "publish:patch": "node scripts/publish.js patch",
     "publish:minor": "node scripts/publish.js minor",
