@@ -8,7 +8,7 @@
   "react-native": "src/index.ts",
   "source": "src/index.ts",
   "bin": {
-    "create-neobit-app": "./cli/index.js"
+    "create-neobit-app": "cli/index.js"
   },
   "files": [
     "cli",
@@ -27,9 +27,7 @@
     "example:clean": "cd example && npm run clean",
     "build": "node scripts/build.js",
     "typecheck": "tsc --noEmit",
-    "publish:patch": "node scripts/publish.js patch",
-    "publish:minor": "node scripts/publish.js minor",
-    "publish:major": "node scripts/publish.js major"
+    "publish": "node scripts/publish.js"
   },
   "keywords": [
     "react-native",
@@ -49,7 +47,7 @@
   "author": "Ibrahim Hamed",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ibrahimhamed11/neobit-builder"
+    "url": "git+https://github.com/ibrahimhamed11/neobit-builder.git"
   },
   "homepage": "https://github.com/ibrahimhamed11/neobit-builder#readme",
   "engines": {
