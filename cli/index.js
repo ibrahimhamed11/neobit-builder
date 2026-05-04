@@ -71,8 +71,17 @@ function replaceInDir(dir, tokens) {
 
 // ── Entry point ────────────────────────────────────────────────────────────────
 async function main() {
-  console.log('\n' + c.bold(c.cyan('  🚀  create-neobit-app')));
-  console.log(c.dim('  Scaffold a production-ready React Native app in seconds.\n'));
+  console.log('\n' + c.bold(c.cyan([
+    '  ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗████████╗',
+    '  ████╗  ██║██╔════╝██╔═══██╗██╔══██╗██║╚══██╔══╝',
+    '  ██╔██╗ ██║█████╗  ██║   ██║██████╔╝██║   ██║   ',
+    '  ██║╚██╗██║██╔══╝  ██║   ██║██╔══██╗██║   ██║   ',
+    '  ██║ ╚████║███████╗╚██████╔╝██████╔╝██║   ██║   ',
+    '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝   ╚═╝  ',
+  ].join('\n')));
+  console.log(c.dim('  create-neobit-app — Scaffold a production-ready React Native app in seconds.\n'));
+  console.log(c.dim('  Developer : ') + c.bold('Ibrahim Hamed'));
+  console.log(c.dim('  Contact   : ') + c.bold('ibrahim.hamed112@hotmail.com') + '\n');
 
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
@@ -118,11 +127,18 @@ async function main() {
     // ── 2. react-native init ───────────────────────────────────────────────────
     console.log(c.cyan('  [1/5]') + ' Initializing React Native project…');
     try {
-      execSync(
+      // Use pipe to suppress RN's ASCII logo — we show NeoBit branding instead
+      const initOutput = execSync(
         `npx @react-native-community/cli@latest init ${projectName} --package-name ${bundleId} --skip-install`,
-        { stdio: 'inherit' },
+        { encoding: 'utf8', stdio: ['inherit', 'pipe', 'pipe'] },
       );
-    } catch {
+      // Show only the useful lines (skip the logo block)
+      const usefulLines = (initOutput || '').split('\n').filter(line =>
+        line.includes('✔') || line.includes('Run instructions') ||
+        line.includes('cd ') || line.includes('npx react-native')
+      );
+      if (usefulLines.length) console.log(c.dim(usefulLines.slice(0, 4).join('\n')));
+    } catch (e) {
       console.error(c.red('\n  ✗ react-native init failed. Needs Node 18+ and internet.\n'));
       process.exit(1);
     }
@@ -258,7 +274,7 @@ async function main() {
     // ── 7. npm install ─────────────────────────────────────────────────────────
     console.log(c.cyan('  [5/5]') + ' Installing dependencies (may take a few minutes)…');
     try {
-      execSync('npm install', { cwd: destDir, stdio: 'inherit' });
+      execSync('npm install --legacy-peer-deps', { cwd: destDir, stdio: 'inherit' });
     } catch {
       console.warn(c.yellow('\n  ⚠ npm install had warnings — run it manually inside the folder.\n'));
     }

@@ -1,6 +1,6 @@
 {
   "name": "create-neobit-app",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Scaffold a production-ready React Native app in one command. Auth, Firebase, Theme, i18n (Arabic + English RTL), Navigation — all wired up.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
