@@ -85,7 +85,12 @@ async function main() {
     const bundleId      = await ask(rl, '📦 Bundle ID', `com.company.${projectName.toLowerCase()}`);
     const apiUrl        = await ask(rl, '🌐 Production API URL', 'https://api.myapp.com/api');
     const localIp       = await ask(rl, '💻 Your local IP (for device dev)', '192.168.1.100');
-    const primaryColor  = await ask(rl, '�� Primary brand color (hex)', '#0F766E');
+    const primaryColor  = await ask(rl, '🎨 Primary brand color (hex)', '#0F766E');
+
+    console.log('\n  ' + c.bold('Project mode:'));
+    console.log(c.dim('  Clone   → all source files copied into your project (fully customizable)'));
+    console.log(c.dim('  Library → thin App.tsx that imports everything from create-neobit-app'));
+    const cloneMode = await askYN(rl, '📋 Clone all source files?', true);
 
     console.log('\n  ' + c.bold('Features:'));
     const googleSignIn = await askYN(rl, '🔍 Google Sign-In?', true);
@@ -122,15 +127,33 @@ async function main() {
       process.exit(1);
     }
 
-    // ── 3. Copy template files ───────────────────────────────────────────────
+    // ── 3. Copy source files ─────────────────────────────────────────────────
     console.log(c.cyan('  [2/5]') + ' Scaffolding source files…');
 
-    // Copy template/src/ → dest/src/
-    // The generated App.tsx imports from 'create-neobit-app' (framework pattern)
     const destSrc = path.join(destDir, 'src');
     const tmplSrc = path.join(TEMPLATE_DIR, 'src');
-    if (fs.existsSync(tmplSrc)) {
-      copyDir(tmplSrc, destSrc);
+
+    if (cloneMode) {
+      // ── CLONE MODE: copy entire src/ library into the project ─────────────
+      // Developer owns every screen, component, store, theme file
+      const excludeFromSrc = new Set(['NeobitApp.tsx', 'index.ts', 'config', 'data']);
+      if (fs.existsSync(SRC_DIR)) {
+        copyDir(SRC_DIR, destSrc, excludeFromSrc);
+      }
+      // Overlay template/src/ on top (standalone App.tsx, authStore entry, etc.)
+      if (fs.existsSync(tmplSrc)) {
+        // In clone mode, skip the framework App.tsx — use the standalone one
+        const cloneSrcOverride = path.join(TEMPLATE_DIR, 'src-clone');
+        if (fs.existsSync(cloneSrcOverride)) {
+          copyDir(cloneSrcOverride, destSrc);
+        }
+      }
+    } else {
+      // ── FRAMEWORK MODE: thin App.tsx imports from create-neobit-app ────────
+      // One config object drives auth, nav, theme, i18n — update via npm
+      if (fs.existsSync(tmplSrc)) {
+        copyDir(tmplSrc, destSrc);
+      }
     }
 
     // ── 4. Copy root template files ───────────────────────────────────────────
@@ -191,6 +214,7 @@ async function main() {
 
       // Remove Firebase packages that weren't selected
       const deps = { ...existing.dependencies, ...tmplPkg.dependencies };
+      if (cloneMode) delete deps['create-neobit-app']; // clone = no library dep needed
       if (!googleSignIn)  delete deps['@react-native-google-signin/google-signin'];
       if (!appleSignIn)   delete deps['@invertase/react-native-apple-authentication'];
       if (!fbFCM)         { delete deps['@react-native-firebase/messaging']; delete deps['@notifee/react-native']; }
